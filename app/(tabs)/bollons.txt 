@@ -1,0 +1,320 @@
+    {/* 
+        viết layout cho menu tại đây
+        Chú ý chúng ta dùng component={TabRootLayout}  để có bottom tabs ở bên dưới screen
+      */}
+       <Drawer.Screen name="Home" component={TabRootLayout}
+         options={{
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                    <MaterialCommunityIcons name="home-outline" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>Home</Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+
+  <Drawer.Screen name="collections" component={CollectionScreen}
+         options={{
+          headerShown: false,
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                    <MaterialIcons name="collections" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>Collections</Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+
+<Drawer.Screen name="cart" component={CartScreen}
+         options={{
+           headerShown: true,
+           headerTitle: "Carts",
+           headerLeft: ()=> <TouchableOpacity style={{paddingHorizontal:20}} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+           <Ionicons name="filter" size={30} color="black" />
+       </TouchableOpacity>,
+
+       headerRight: ()=> <TouchableOpacity style={{paddingHorizontal:20}}>
+           <AntDesign name="message1" size={24} color="black" />
+       </TouchableOpacity>,
+           
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                   
+                    <Ionicons name="cart" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>Carts</Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                    
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+
+<Drawer.Screen name="news" component={NewScreen}
+         options={{
+          headerShown: true,
+          headerTitle: "News",
+          headerLeft: ()=> <TouchableOpacity style={{paddingHorizontal:20}} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+          <Ionicons name="filter" size={30} color="black" />
+      </TouchableOpacity>,
+
+      headerRight: ()=> <TouchableOpacity style={{paddingHorizontal:20}}>
+         <AntDesign name="search1" size={24} color="black" />
+      </TouchableOpacity>,
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                    <MaterialIcons name="receipt" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>News</Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+
+  <Drawer.Screen name="wishLists" component={WishListScreen}
+         options={{
+          headerShown: true,
+           headerTitle: "Travel Wishlist",
+           headerLeft: ()=> <TouchableOpacity style={{paddingHorizontal:20}} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+           <Ionicons name="filter" size={30} color="black" />
+       </TouchableOpacity>,
+           
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                    <FontAwesome name="heart" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>Travel 
+                    Wishlist</Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+
+
+<Drawer.Screen name="RecentlyViewed" component={TabRootLayout}
+         options={{
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                    <Ionicons name="eye" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>Recently Viewed</Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+
+
+<Drawer.Screen name="MyAccount" component={MyAccountScreen}
+         options={{
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                    <Ionicons name="person" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>My Account </Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+       <Drawer.Screen name="Shipping" component={TabRootLayout}
+         options={{
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                     <MaterialIcons name="local-shipping" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>Shipping</Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+
+<Drawer.Screen name="About" component={TabRootLayout}
+         options={{
+           drawerIcon: ({focused,color,size})=>{
+            return (
+                <View style={{backgroundColor:focused?"green":"#fff", borderRadius:8, padding:2}}>
+                      <Entypo name="info" size={size} color={color} />
+                </View>
+            )
+           },
+           drawerLabel:({focused,color})=>{
+            return (
+              <View style={{flex:1}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{flex:1,color:focused?"green":color,fontSize:16,fontWeight:500,paddingLeft:10}}>About</Text>
+                    <Entypo name="chevron-right" size={16} color={color} />
+                </View>
+              </View>
+            )
+           }
+         }}
+       />
+
+
+       const TabsItem = ({ icon, color, name }: TabIconProps) => {
+  return (
+    <View style={styles.TabsItem}>
+      <Image source={icon} resizeMode="contain" tintColor={color} style={styles.TabsIcon} />
+      <Text style={[styles.TabsTitle, { color }]}>
+        {name}
+      </Text>
+    </View>
+  );
+};
+
+
+// export default function TabLayout() {
+//   return (
+//     <Tab.Navigator
+//       screenOptions={{
+//         tabBarShowLabel: false,
+//         tabBarActiveTintColor: '#FFA001',
+//         tabBarInactiveTintColor: '#CDCDE0',
+//         tabBarStyle: {
+//           backgroundColor: '#161622',
+//           borderTopWidth: 1,
+//           borderTopColor: '#232533',
+//           height: 84,
+//         },
+//       }}
+//     >
+//       <Tab.Screen 
+//         name="Study" 
+//         component={Study} 
+//         options={{
+//           headerShown: false,
+//           tabBarIcon: ({ color, focused }) => (
+//             <TabsItem icon={icons.studying} color={color} name="Study" focused={focused} />
+//           ),
+//         }} 
+//       />
+      
+//       <Tab.Screen 
+//         name="Restaurant" 
+//         component={Restaurant} 
+//         options={{
+//           headerShown: false,
+//           tabBarIcon: ({ color, focused }) => (
+//             <TabsItem icon={icons.restaurant} color={color} name="Restaurant" focused={focused} />
+//           ),
+//         }} 
+//       />
+
+//       <Tab.Screen 
+//         name="Setting" 
+//         component={Setting} 
+//         options={{
+//           headerShown: false,
+//           tabBarIcon: ({ color, focused }) => (
+//             <TabsItem icon={icons.setting} color={color} name="Setting" focused={focused} />
+//           ),
+//         }} 
+//       />
+//     </Tab.Navigator>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   TabsIcon: {
+//     width: 30,
+//     height: 30,
+//   },
+//   TabsTitle: {
+//     fontSize: 10,
+//   },
+//   TabsItem: {
+//     display: 'flex',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+// });
+
+// custom header
+// const MyHeader = ({title,style} : any) => {
+//   console.warn(style)
+//   return <View style={style}>
+//       <Text style={{fontSize:20,color:"black",paddingTop:100}}>4324324234</Text>
+//   </View>
+// }
+
+// Menu Drawer
