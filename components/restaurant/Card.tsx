@@ -1,65 +1,82 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React, { createContext, useState } from 'react';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import CustomButton from '../CustomButton';
-import Commande from '../OrderForm';
-import CommandeForm from '@/app/Form/CommandeForm';
+import { View, Text, Image, ScrollView } from 'react-native';
+import React, { useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
+import CustomButton from '../CustomButton';
 import OrderForm from './OrderForm';
+import QrCode from '../QrCode';
 
-type Props ={
-//   showModal:boolean;
-  plateImage:any;
-  name:string;
-  fruit:string;
-  meat:string;
-}
+type Props = {
+  plateImage: any;
+  name: string;
+  fruit: string;
+  meat: string;
+};
 
-const Card = ({plateImage,name,fruit,meat}:Props) => {
-    const [IsOpenModal,setIsOpenModal] = useState<boolean>(false)
-    const handleShow = () => {setIsOpenModal(false)}
-    return (
-    <View className="flex flex-col bg-gray-100 mx-4 border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <Text className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        12h30-16h
-      </Text>
+const Card = ({ plateImage, name, fruit, meat }: Props) => {
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenQrCode,setIsOpenQrCode] = useState<boolean>(false)
+  const handleShow = () => {
+    setIsOpenModal(false);
+  };
 
-      <View>
+  return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 8 }}>
+      <View className="flex flex-col bg-gray-100 border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 mb-4">
+        <Text className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          12h30-16h
+        </Text>
+
         <Image
           source={plateImage}
-          className="relative rounded-xl w-full h-48"
+          className="rounded-xl w-full h-48"
           resizeMode="cover"
         />
 
         <View className="flex justify-center p-4">
           <Text className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-           
-           {name}
-
+            {name}
           </Text>
           <View className="ml-5 mb-4">
-            <Text>Fruit: 
-                {fruit}
-            </Text>
-            <Text>Obstacle: 
-                {meat}
-            </Text>
+            <Text>Fruit: {fruit}</Text>
+            <Text>Obstacle: {meat}</Text>
           </View>
-          {/* <TouchableOpacity
-            className="bg-light-tabBarActiveTintColor rounded-lg h-10 flex items-center justify-center"
-            activeOpacity={0.7}
-          >
-            <Text className="text-center text-white font-bold">Commander</Text>
-          </TouchableOpacity> */}
-          <CustomButton padding={1} label='Commander' width={'sm'} 
-          onPress={()=> setIsOpenModal(true)}
-          ></CustomButton>
+
+          <CustomButton
+            padding={1}
+            label='Commander'
+            width={'sm'}
+            onPress={() => setIsOpenModal(true)}
+          />
         </View>
+        <View className='mb-7'>
+   
+     </View>
       </View>
-     <NativeBaseProvider>
-      <OrderForm isOpen={IsOpenModal} handleShow={handleShow}></OrderForm>
-     </NativeBaseProvider>
-    </View>
+     
+      <QrCode isOpen={isOpenQrCode} setIsOpen={setIsOpenQrCode}/>
+    
+            {/* <CustomButton
+            padding={1}
+            label='Commander'
+            width={'sm'}
+            onPress={() => setIsOpenModal(true)}
+          /> */}
+      <NativeBaseProvider>
+        
+        <OrderForm isOpen={isOpenModal} handleShow={handleShow} />
+      </NativeBaseProvider>
+      <View className='mb-12'>
+      <CustomButton
+    //  disable={true}
+            padding={2}
+            label='Valider'
+            width={'sm'}
+            variant='secondary'
+            onPress={() => setIsOpenModal(true)}
+      
+          />
+      </View>
+    </ScrollView>
   );
 };
 

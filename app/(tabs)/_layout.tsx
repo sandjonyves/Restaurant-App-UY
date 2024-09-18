@@ -148,6 +148,7 @@ import Settings from './Settings';
 import CustomNavbar from '@/components/NavBar';
 import CustomButton from '@/components/CustomButton';
 import { Button, IconButton, NativeBaseProvider } from 'native-base';
+import { Route } from 'expo-router/build/Route';
 const Drawer = createDrawerNavigator();
 
 
@@ -219,7 +220,7 @@ const CustomDrawerContent = (props: any)=>{
                {/* <NativeBaseProvider> */}
                 {/* <IconButton aria-label='dfsdf'><Text></Text></IconButton> */}
                
-              <CustomButton icon={true} iconName= {'qrcode-scan'} label={` Scanner`} variant='primary' padding={2} />
+              <CustomButton icon={true} iconName= {'qrcode-scan'} label={` Scanner`} variant='primary' padding={2} onPress={()=> navigation.navigate('Scanner')} />
         <CustomButton  label='Deconnexion' variant='secondary' padding={2} />
         <CustomButton label='SUpprimer son compte' variant='danger' padding={2} />
         {/* </NativeBaseProvider> */}

@@ -38,7 +38,7 @@ const Signin = () => {
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // ajuste la valeur selon tes besoins
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} 
         >
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <StatusBar style='light' />

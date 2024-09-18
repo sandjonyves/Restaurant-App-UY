@@ -9,10 +9,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import {token,decodedData} from '@/db/Commendes'
 type Props = {
   isOpen: boolean,
-  handleShow: (isShowModal: boolean) => void
+
+  setIsOpen : React.Dispatch<React.SetStateAction<boolean>>
 };
 
-const QrCode = ({ isOpen, handleShow }: Props) => {
+const QrCode = ({ isOpen, setIsOpen }: Props) => {
   const [ShowModal, setShowModal] = useState<boolean>(isOpen);
 
   const handleSubmit = () => {
@@ -30,7 +31,7 @@ const QrCode = ({ isOpen, handleShow }: Props) => {
         >
           <View className='items-end justify-center m-3'>
             <TouchableOpacity
-              onPress={() => handleShow(false)}
+              onPress={() => setIsOpen(false)}
             >
               <Image
                 className='w-4 h-4'
@@ -47,7 +48,7 @@ const QrCode = ({ isOpen, handleShow }: Props) => {
             />
           </View>
         </View>
-        <View className=' p-4 '>
+        {/* <View className=' p-4 '>
           <CustomButton
             onPress={handleSubmit}
             label='Valider'
@@ -55,7 +56,7 @@ const QrCode = ({ isOpen, handleShow }: Props) => {
             width_label={'2'}
             width={'l'}
           />
-        </View>
+        </View> */}
       </Modal>
     </View>
   );

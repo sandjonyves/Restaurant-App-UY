@@ -13,13 +13,19 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.UY"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.UY"
     },
     "web": {
       "bundler": "metro",
@@ -31,12 +37,11 @@
       [
         "expo-camera",
         {
-          "cameraPermission":"Allow $(PRODUCT_NAME) to use the camera",
-          "microphonePermission":"Allow $(PRODUCT_NAME) to use the microphone",
-          "recordAudioAndroid" : true
+          "cameraPermission": "Allow $(PRODUCT_NAME) to use the camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to use the microphone",
+          "recordAudioAndroid": true
         }
       ]
-
     ],
     "experiments": {
       "typedRoutes": true
