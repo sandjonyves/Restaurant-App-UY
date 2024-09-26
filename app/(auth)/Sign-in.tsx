@@ -1,35 +1,49 @@
 import { View, Text, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form'
 import CustomButton from '@/components/CustomButton';
-
-
+import Auth from '@/services/request/Auth'
+import { useDispatch, useSelector } from 'react-redux';
 type FormData = {
-    username: string,
+    
     matricule: string,
     password: string,
-    confirmPassword: string
+   
 
 }
 
+
+
 const Signin = () => {
+
+    const dispatch =useDispatch()
+    const selector = useSelector(state => state.auth.user)
+    
+    const Auths = new Auth()
+
     const { handleSubmit, control } = useForm<FormData>()
 
     const verifPassword = (data:FormData)=>{
         return data.password ===data.confirmPassword
     }
     const onSubmit = (data: FormData) => {
-        if (verifPassword){
-            Alert.alert('ok')
-        }else{
-            Alert.alert('bard')
-        }
+        // if (verifPassword){
+        //     Alert.alert('ok')
+            
+            
+        // }else{
+        //     Alert.alert('bard')
+        // }
+        Auths.login({data,dispatch})
        
         console.log(data)
     }
+    useEffect(()=>{
+        console.log('kjjkjkjkjkjk',selector)
+    },[])
     return (
         // <KeyboardAvoidingView
         // style={{ flex: 1 }}
@@ -91,6 +105,9 @@ const Signin = () => {
                                         placeholder='Password'
                                         placeholderTextColor={'gray'}
                                         secureTextEntry={true}
+                                        onChangeText={onChange}
+                                        onBlur={onBlur}
+                                        value={value}
                                     />
                                 </Animated.View>
                             )}
@@ -106,7 +123,7 @@ const Signin = () => {
                                 </Text>
                             </TouchableOpacity> */}
 
-                            <CustomButton  padding={4} label={'Singin'}/>
+                            <CustomButton  onPress={handleSubmit(onSubmit)} padding={4} label={'Singin'}/>
                         </Animated.View>
 
                         <View className='flex-row gap-x-3 justify-center'>

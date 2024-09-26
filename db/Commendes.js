@@ -8,7 +8,7 @@ export const DataOfCommande = {
 }
 
 
-function createToken(data) {
+export function createToken(data) {
     // Convertir les données en chaîne JSON
     const jsonData = JSON.stringify(data);
     
@@ -18,20 +18,19 @@ function createToken(data) {
     return token;
   }
   
-  // Exemple d'utilisation
+
   const data = {
     userId: 123,
     username: 'etudiant',
     role: 'student'
   };
   
-  export const token = createToken(data);
+
  
 
-  function decodeToken(token) {
+  export function decodeToken(token) {
     const jsonData = Buffer.from(token, 'base64').toString('utf-8');
     return JSON.parse(jsonData);
   }
   
-  // Exemple d'utilisation
-  export  const decodedData = decodeToken(token);
+

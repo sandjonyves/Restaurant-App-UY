@@ -4,12 +4,16 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
+import { Provider } from 'react-redux';
+import { PersistGate } from "redux-persist/integration/react";
+import persistStore from "redux-persist/es/persistStore";
 import { useColorScheme } from '@/hooks/useColorScheme';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './(tabs)/Restaurant';
 import Create from './(tabs)/create';
+
+import {store,persistor} from '@/redux/store'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -31,10 +35,10 @@ export default function RootLayout() {
   }
 
   return (
+    <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-    
-
       <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
@@ -42,6 +46,8 @@ export default function RootLayout() {
       
       </Stack>
     </ThemeProvider>
+    </PersistGate>
+    </Provider>
   );
 
  

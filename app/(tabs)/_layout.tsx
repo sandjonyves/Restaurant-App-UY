@@ -7,6 +7,9 @@ import Study from './Study';
 import Setting from './Settings';
 import { icons } from '../../constants';
 
+import { useSelector, UseSelector } from 'react-redux';
+import { decodeJWT } from '@/utils/decodeJWT';
+
 type TabIconProps = {
   icon?: ImageSourcePropType;
   color?: ColorValue;
@@ -17,6 +20,9 @@ type TabIconProps = {
 const Tab = createBottomTabNavigator();
 
 const TabsItem = ({ icon, color, name }: TabIconProps) => {
+
+
+  
   return (
     <View style={styles.TabsItem}>
       <Image source={icon} resizeMode="contain" tintColor={color} style={styles.TabsIcon} />
@@ -164,6 +170,14 @@ const CustomTitleTab = ({ children }: any) => {
 const CustomDrawerContent = (props: any)=>{
 
   const {state, navigation} = props
+  const seletor_auth = useSelector(state=>state.auth.user)
+  const [dataDecodeUser,setDataDecodeUser] = useState<any>()
+  
+  useEffect(
+    ()=>{
+        setDataDecodeUser(decodeJWT(seletor_auth.access))
+        console.log(dataDecodeUser)
+  },[])
   return (
    <View style={{flex:1,height:'100%'}}>
          <DrawerContentScrollView {...props}>
@@ -220,8 +234,12 @@ const CustomDrawerContent = (props: any)=>{
                {/* <NativeBaseProvider> */}
                 {/* <IconButton aria-label='dfsdf'><Text></Text></IconButton> */}
                
-              <CustomButton icon={true} iconName= {'qrcode-scan'} label={` Scanner`} variant='primary' padding={2} onPress={()=> navigation.navigate('Scanner')} />
-        <CustomButton  label='Deconnexion' variant='secondary' padding={2} />
+          {/* {
+            dataDecodeUser.role ==='ADMIN'? <CustomButton icon={true} iconName= {'qrcode-scan'} label={` Scanner`} variant='primary' padding={2} onPress={()=> navigation.navigate('Scanner')} />
+                                          :null
+          } */}
+
+        <CustomButton  label='Deconnexion' variant='secondary' padding={2} disable={false} />
         <CustomButton label='SUpprimer son compte' variant='danger' padding={2} />
         {/* </NativeBaseProvider> */}
         </View>

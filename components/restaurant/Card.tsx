@@ -53,7 +53,6 @@ const Card = ({ plateImage, name, fruit, meat }: Props) => {
      </View>
       </View>
      
-      <QrCode isOpen={isOpenQrCode} setIsOpen={setIsOpenQrCode}/>
     
             {/* <CustomButton
             padding={1}
@@ -65,17 +64,7 @@ const Card = ({ plateImage, name, fruit, meat }: Props) => {
         
         <OrderForm isOpen={isOpenModal} handleShow={handleShow} />
       </NativeBaseProvider>
-      <View className='mb-12'>
-      <CustomButton
-    //  disable={true}
-            padding={2}
-            label='Valider'
-            width={'sm'}
-            variant='secondary'
-            onPress={() => setIsOpenModal(true)}
-      
-          />
-      </View>
+    
     </ScrollView>
   );
 };

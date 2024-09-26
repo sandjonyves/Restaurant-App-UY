@@ -5,17 +5,25 @@ import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated'
 import { router } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form'
 import CustomButton from '@/components/CustomButton';
+import Auth from '@/services/request/Auth'
 
+import { useDispatch, UseDispatch } from 'react-redux';
 
 type FormData = {
     username: string,
     matricule: string,
     password: string,
+   
     confirmPassword: string
 
 }
 
 const SignUp = () => {
+
+    const dispatch = useDispatch()
+
+    const auth = new Auth()
+
     const { handleSubmit, control } = useForm<FormData>()
 
     const verifPassword = (data:FormData)=>{
@@ -27,8 +35,9 @@ const SignUp = () => {
         }else{
             Alert.alert('bard')
         }
-       
         console.log(data)
+       auth.register({data,dispatch})
+        // console.log(data)
     }
     return (
         // <KeyboardAvoidingView
@@ -108,6 +117,9 @@ const SignUp = () => {
                                         placeholder='Password'
                                         placeholderTextColor={'gray'}
                                         secureTextEntry={true}
+                                        onChangeText={onChange}
+                                        onBlur={onBlur}
+                                        value={value}
                                     />
                                 </Animated.View>
                             )}
@@ -122,6 +134,9 @@ const SignUp = () => {
                                         placeholder='Confirm password'
                                         placeholderTextColor={'gray'}
                                         secureTextEntry={true}
+                                        onChangeText={onChange}
+                                        onBlur={onBlur}
+                                        value={value}
                                     />
                                 </Animated.View>
                             )}
@@ -131,7 +146,7 @@ const SignUp = () => {
 
 
                         <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} className='w-full'>
-                        <CustomButton  padding={3} label={'Create Account'}/>
+                        <CustomButton onPress={handleSubmit(onSubmit)}  padding={3} label={'Create Account'}/>
                         </Animated.View>
 
                         <View className='flex-row gap-x-3 justify-center'>
