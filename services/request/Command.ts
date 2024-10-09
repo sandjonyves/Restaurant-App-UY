@@ -2,7 +2,7 @@ import Axios from "../Axios";
 import { Dispatch } from "redux";
 
 import { saveCommand } from "@/redux/slices/CommandSlice";
-import { R1_disabled, R1_valid_disabled, R2_disabled, R2_valid_disabled } from "@/redux/slices/AutorisationSlice";
+import { R1_disabled, R1_valid_disabled, R2_disabled, R2_valid_disabled, updateRestaurant } from "@/redux/slices/AutorisationSlice";
 
 
 
@@ -20,7 +20,7 @@ type Params = {
 }
 
 type params_validCommand = {
-    dispatch?: Dispatch ,
+    dispatch: Dispatch ,
     command_id:number,
     etudiant_id:number,
     restaurant_id:number
@@ -32,6 +32,8 @@ export class Command {
             const response = await Axios.post('app/order/',data)
             dispatch(saveCommand(response.data))
 
+            //desactivation du bouton de commande 
+            dispatch(updateRestaurant({ id:data.restaurant_id, ordered: true }))
             // data.restaurant_id ==1 ? dispatch(R1_disabled(true)):dispatch(R2_disabled(true))
           
             console.log(response.data)
@@ -61,6 +63,7 @@ export class Command {
                 const data = JSON.parse(event.data);
                 if (data.message) {
                     console.log('message',restaurant_id)
+                    dispatch(updateRestaurant({ id:data.restaurant_id, valided: true }))
                     // dispatch?dispatch(restaurant_id==1?R1_valid_disabled(true):R2_valid_disabled(true)):null
 
                     console.log(data.message)

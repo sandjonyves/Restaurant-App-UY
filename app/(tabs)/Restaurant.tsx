@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dishes } from '@/services/request/DIsh'
 import { Alert } from 'react-native'
 import times from '@/utils/Time'
-import { R1_disabled,R2_disabled } from '@/redux/slices/AutorisationSlice'
 
 type Props_Restaurant={
   changeRestaurant?:boolean,
@@ -39,14 +38,11 @@ const Restaurant = () => {
 
 
 
-  const enable_valid_and_command_button = useSelector(state => state.autorisation.is_disabled)
- 
-  const R1_order_autorize_selector = useSelector(state=>state.autorisation.R1_order_is_disabled)
+  const restaurant_Authorisation_selector = useSelector(state => state.autorisation.restaurants)
 
-  const R1_disabled_selector = useSelector(state => state.autorisation.r1_disabled)
-  const R2_disabled_selector = useSelector(state => state.autorisation.r2_disabled)
-  const R_selector  = useSelector(state => state.autorisation.is_disabled)
-  const test  = new Date()
+  // const R2_disabled_selector = useSelector(state => state.autorisation.r2_disabled)
+  // const R_selector  = useSelector(state => state.autorisation.is_disabled)
+  // const test  = new Date()
 
   const [changeRestaurant,setChangeRestaurant] = useState<number>(1)
   const [isOpenQrCode,setIsOpenQrCode] = useState<boolean>(false)
@@ -94,38 +90,27 @@ console.log(localTime)
     // Alert.alert(test)
     times({dispatch:dispatch})
 
-    if(R1_disabled_selector){
-    
-      restaurants[0].ordered=true
-      restaurants[0].validated=true
-    }
-     if(R2_disabled_selector){
+    console.log('restaurant selector test',restaurant_Authorisation_selector)
 
-      restaurants[1].ordered=true
-      restaurants[1].validated=true
-    }
-     if(!R_selector){
-      console.log('test4343333333333333333333333333333333333333333333333333333333333333333333333333344444444444444')
-      restaurants[1].ordered=false
-      restaurants[1].validated=false
-      restaurants[0].ordered=false
-      restaurants[0].validated=false
-    }
-    console.log(R_selector,R1_disabled_selector,R2_disabled_selector)
-    // console.log(enable_valid_and_command_button,R1_order_autorize_selector ,R1_valid_order_selector,R2_valid_order_selector)
-    // if(enable_valid_and_command_button){
-    //   console.log('dshdjhsjhdjhsdjhdjhsjhdjshjdhjhdjhsjdhsjdhjshjdhsjhdj66')
-    //   dispatch(R1_disabled(false))
-    //   dispatch(R1_valid_disabled(false))
-    //   dispatch(R2_disabled(false))
-    //   dispatch(R2_valid_disabled(false))
-    // }else{
-    //   dispatch(R1_disabled(true))
-    //   dispatch(R1_valid_disabled(true))
-    //   dispatch(R2_disabled(true))
-    //   dispatch(R2_valid_disabled(true))
+    // if(restaurant_Authorisation_selector[0].validated){
+    
+    //   restaurants[0].ordered=true
+    //   restaurants[0].validated=true
     // }
-   
+    //  if(R2_disabled_selector){
+
+    //   restaurants[1].ordered=true
+    //   restaurants[1].validated=true
+    // }
+    //  if(!R_selector){
+    //   console.log('test4343333333333333333333333333333333333333333333333333333333333333333333333333344444444444444')
+    //   restaurants[1].ordered=false
+    //   restaurants[1].validated=false
+    //   restaurants[0].ordered=false
+    //   restaurants[0].validated=false
+    // }
+    // console.log(R_selector,restaurant_Authorisation_selector[0].validated,R2_disabled_selector)
+
 
     // dishInstance.choise_dish({dish_id:1,dispatch})
     // console.log(enable_valid_and_command_button)
@@ -133,7 +118,7 @@ console.log(localTime)
     // setMenuToDay(dish_selector.map((dish_item:any)=> dish_item.restaurant_id==1))
 
     // console.log('dhjdhsajdhjas',dish_selector!=undefined?dish_selector.find((dish:any)=> dish.restaurant_id===changeRestaurant):{})
-  },[])
+  },[ ])
 
   return (
     <NativeBaseProvider>
@@ -164,7 +149,7 @@ console.log(localTime)
             width={'sm'}
             variant='secondary'
             onPress={() => ()=>validOrder(changeRestaurant)}
-            disable ={restaurants[0].validated}
+            disable ={restaurant_Authorisation_selector[0].validated}
           />
       </View>
       </>
@@ -182,7 +167,7 @@ console.log(localTime)
             width={'sm'}
             variant='secondary'
             onPress={() => ()=>validOrder(changeRestaurant)}
-            disable ={restaurants[1].validated}
+            disable ={restaurant_Authorisation_selector[1].validated}
           />
       </View>
       </>

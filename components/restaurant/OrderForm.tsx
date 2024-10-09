@@ -10,6 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Command } from '@/services/request/Command';
 import { decodeJWT } from "@/utils/decodeJWT";
+import { updateRestaurant } from '@/redux/slices/AutorisationSlice';
 
 type Props = {
   isOpen: boolean;
@@ -52,6 +53,7 @@ const OrderForm: React.FC<Props> = ({ isOpen, handleShow, dish_selector, command
     console.log(formData);
     command.register({ data: formData, dispatch });
     commandDish(dish_selector.restaurant_id);
+   
   };
 
   const handleChange = (item: keyof FormData, value: string | number) => {

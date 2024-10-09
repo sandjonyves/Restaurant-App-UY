@@ -1,4 +1,4 @@
-import { disbale, R1_disabled, R2_disabled } from "@/redux/slices/AutorisationSlice";
+import { disable, setRestaurants, updateRestaurant } from "@/redux/slices/AutorisationSlice";
 import { Dispatch } from "redux";
 
 type Params = {
@@ -27,23 +27,32 @@ export default function times({ dispatch }: Params) {
     const localTime = timeOfThisMoment.toLocaleTimeString('fr-FR', options);
 
     console.log('Local time:', localTime);
+
+    dispatch(setRestaurants([
+      { id: 1, name: 'Restaurant I', ordered: false, validated: false },
+      { id: 2, name: 'Restaurant II', ordered: false, validated: false }
+  ]));
     
     if (compareTimes(localTime, '06:00:00') > 0) {
         // Ouverture des commandes
         console.log('Ouverture des commandes');
-        dispatch(disbale(true));
+        dispatch(disable(true));
+        dispatch(updateRestaurant({ id:1, ordered: false,valided:false }))
+        dispatch(updateRestaurant({ id:2, ordered: false,valided:false }))
     }
 
     if (compareTimes(localTime, '16:00:00') > 0) {
         // Fermeture du restaurant 1
+        dispatch(updateRestaurant({ id:1, ordered: true,valided:true }))
         console.log('Fermeture du restaurant 1');
-        dispatch(R1_disabled(true));
+        // dispatch(R1_disabled(true));
     }
 
-    if (compareTimes(localTime, '16:16:00') > 0) {
+    if (compareTimes(localTime, '20:00:00') > 0) {
       // Fermeture du restaurant 2
+      dispatch(updateRestaurant({ id:2, ordered: true,valided:true }))
       console.log('ouverture du restaurant 2');
-      dispatch(R2_disabled(false));
+      dispatch(disable(true));
   }
 
     // Uncomment the following block if you want to enable the restaurant 2 logic
