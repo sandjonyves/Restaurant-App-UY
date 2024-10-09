@@ -10,95 +10,7 @@ import { icons } from '../../constants';
 import { useSelector, UseSelector } from 'react-redux';
 import { decodeJWT } from '@/utils/decodeJWT';
 
-type TabIconProps = {
-  icon?: ImageSourcePropType;
-  color?: ColorValue;
-  name?: string;
-  focused?: boolean;
-};
 
-const Tab = createBottomTabNavigator();
-
-const TabsItem = ({ icon, color, name }: TabIconProps) => {
-
-
-  
-  return (
-    <View style={styles.TabsItem}>
-      <Image source={icon} resizeMode="contain" tintColor={color} style={styles.TabsIcon} />
-      <Text style={[styles.TabsTitle, { color }]}>
-        {name}
-      </Text>
-    </View>
-  );
-};
-
-
-// export default function TabLayout() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         tabBarShowLabel: false,
-//         tabBarActiveTintColor: '#FFA001',
-//         tabBarInactiveTintColor: '#CDCDE0',
-//         tabBarStyle: {
-//           backgroundColor: '#161622',
-//           borderTopWidth: 1,
-//           borderTopColor: '#232533',
-//           height: 84,
-//         },
-//       }}
-//     >
-//       <Tab.Screen 
-//         name="Study" 
-//         component={Study} 
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ color, focused }) => (
-//             <TabsItem icon={icons.studying} color={color} name="Study" focused={focused} />
-//           ),
-//         }} 
-//       />
-      
-//       <Tab.Screen 
-//         name="Restaurant" 
-//         component={Restaurant} 
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ color, focused }) => (
-//             <TabsItem icon={icons.restaurant} color={color} name="Restaurant" focused={focused} />
-//           ),
-//         }} 
-//       />
-
-//       <Tab.Screen 
-//         name="Setting" 
-//         component={Setting} 
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ color, focused }) => (
-//             <TabsItem icon={icons.setting} color={color} name="Setting" focused={focused} />
-//           ),
-//         }} 
-//       />
-//     </Tab.Navigator>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   TabsIcon: {
-//     width: 30,
-//     height: 30,
-//   },
-//   TabsTitle: {
-//     fontSize: 10,
-//   },
-//   TabsItem: {
-//     display: 'flex',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-// });
 
 
 import {
@@ -128,33 +40,42 @@ import {
   Entypo,
   AntDesign
 } from "@expo/vector-icons";
-// 📗 khai báo thư viện mà expo hổ trỡ để lấy giá trị chiều cao  statusBar
-import Constants from "expo-constants";
-// custom header
-// const MyHeader = ({title,style} : any) => {
-//   console.warn(style)
-//   return <View style={style}>
-//       <Text style={{fontSize:20,color:"black",paddingTop:100}}>4324324234</Text>
-//   </View>
-// }
 
-// Menu Drawer
-import RegisterScreen from "../register";
-import CollectionScreen from "../collections";
-import WishListScreen from "../wishLists";
-import CartScreen from "../cart";
-import NewScreen from "../news";
-import MyAccountScreen from "../myAccount";
-import MessageScreen from './messages';
-import QrCode from '@/components/QrCode';
-import QrcodeScreen from './qrcode';
-import favoriteScreen from './favorites';
+import Constants from "expo-constants";
+
 import HomeScreen from '.';
-import Settings from './Settings';
-import CustomNavbar from '@/components/NavBar';
+
 import CustomButton from '@/components/CustomButton';
-import { Button, IconButton, NativeBaseProvider } from 'native-base';
-import { Route } from 'expo-router/build/Route';
+
+
+type TabIconProps = {
+  icon?: ImageSourcePropType;
+  color?: ColorValue;
+  name?: string;
+  focused?: boolean;
+};
+
+const Tab = createBottomTabNavigator();
+
+const TabsItem = ({ icon, color, name }: TabIconProps) => {
+
+
+
+  return (
+    <View style={styles.TabsItem}>
+      <Image source={icon} resizeMode="contain" tintColor={color} style={styles.TabsIcon} />
+      <Text style={[styles.TabsTitle, { color }]}>
+        {name}
+      </Text>
+    </View>
+  );
+};
+
+
+
+
+
+
 const Drawer = createDrawerNavigator();
 
 
@@ -171,13 +92,23 @@ const CustomDrawerContent = (props: any)=>{
 
   const {state, navigation} = props
   const seletor_auth = useSelector(state=>state.auth.user)
-  const [dataDecodeUser,setDataDecodeUser] = useState<any>()
+  const [dataDecodeUser,setDataDecodeUser] = useState({
+    'role':''
+  })
+
+  const autoristion_selector = useSelector(state => state.autorisation.disable)
+
+  
+
+
+  const [ autorizierToOrder,setAutorizerToOrder] = useState<boolean>()
   
   useEffect(
     ()=>{
         setDataDecodeUser(decodeJWT(seletor_auth.access))
-        console.log(dataDecodeUser)
+        console.log('dadsadsadsa',seletor_auth )
   },[])
+
   return (
    <View style={{flex:1,height:'100%'}}>
          <DrawerContentScrollView {...props}>
@@ -234,10 +165,10 @@ const CustomDrawerContent = (props: any)=>{
                {/* <NativeBaseProvider> */}
                 {/* <IconButton aria-label='dfsdf'><Text></Text></IconButton> */}
                
-          {/* {
+          {
             dataDecodeUser.role ==='ADMIN'? <CustomButton icon={true} iconName= {'qrcode-scan'} label={` Scanner`} variant='primary' padding={2} onPress={()=> navigation.navigate('Scanner')} />
-                                          :null
-          } */}
+                                          :<CustomButton icon={true} iconName= {'qrcode-scan'} label={` Scanner`} variant='primary' padding={2} onPress={()=> navigation.navigate('Scanner')} />
+          }
 
         <CustomButton  label='Deconnexion' variant='secondary' padding={2} disable={false} />
         <CustomButton label='SUpprimer son compte' variant='danger' padding={2} />
@@ -267,22 +198,22 @@ const TabRootLayout = () => {
     const animation = Animated.loop(
       Animated.sequence([ 
         Animated.timing(translation, {
-          toValue: 60, // chiều cao của nút qrcode
+          toValue: 60, 
           duration: 1000,
           useNativeDriver: false,
         }),
         Animated.timing(translation, {
-          toValue: 1, // bắt đầu từ 0 đến 60
-          duration: 1000, // số giây
+          toValue: 1, 
+          duration: 1000, 
           useNativeDriver: false,
         }),
       ])
     );
-    animation.start(); // chạy cái function animation
+    animation.start(); 
 
-    // xoá animation sau khi chạy xong ->"unmount"
+
     return () => animation.stop();
-  }, [translation]); // Nếu translation thay đổi , thì nó sẽ chạy lại animation
+  }, [translation]);
 
   return (
     <>
@@ -299,13 +230,10 @@ const TabRootLayout = () => {
           height: 84,
         },
           header: ({ navigation, route, options }) => {
-            // lấy thông tin name của tab
-            // tìm hiểu thêm : https://reactnavigation.org/docs/bottom-tab-navigator/
-            // https://reactnavigation.org/docs/elements/#header
+         
 
             const title = getHeaderTitle(options, route.name);
 
-            // check kiểm tra tab hiện tại có phải là "Home" hay không
             if (title === "Home" || "Restaurant") {
               return (
                 <>
@@ -387,7 +315,6 @@ const TabRootLayout = () => {
               );
             }
 
-            // chúng ta có thể cấu hình cho các tab khác nếu chúng ta muốn
             else {
               return null;
             }
@@ -465,10 +392,7 @@ const MyDrawerApp = ()=>{
     }}
       drawerContent={(props)=> <CustomDrawerContent {...props} /> }
     >
-      {/* 
-        viết layout cho menu tại đây
-        Chú ý chúng ta dùng component={TabRootLayout}  để có bottom tabs ở bên dưới screen
-      */}
+     
        <Drawer.Screen name="Home" component={TabRootLayout}
          options={{
            drawerIcon: ({focused,color,size})=>{

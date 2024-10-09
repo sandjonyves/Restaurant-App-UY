@@ -7,72 +7,63 @@ import { Select, Box, Radio, Stack, Icon } from 'native-base';
 import Modal from '../Modal';
 import CustomButton from '../CustomButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { Command } from '@/services/request/Command';
-
 import { decodeJWT } from "@/utils/decodeJWT";
 
 type Props = {
   isOpen: boolean;
   handleShow: (isShowModal: boolean) => void;
+  dish_selector: any;
+  commandDish: (id: number) => void;
 };
 
-type formData = {
-  dish_number: number,
-  operator: string,
-  etudiant_id:number,
-  restaurant_id:number
-}
+type FormData = {
+  dish_number: number;
+  operator: string;
+  etudiant_id: number;
+  dish_id: number;
+  restaurant_id: number;
+};
 
-const OrderForm = ({ isOpen, handleShow }: Props) => {
+const OrderForm: React.FC<Props> = ({ isOpen, handleShow, dish_selector, commandDish }) => {
+  const command = new Command();
+  const dispatch = useDispatch();
+  const selector = useSelector(state => state.auth.user);
 
-  const command = new Command()
+  const [formData, setFormData] = useState<FormData>({
+    dish_number: 0,
+    operator: '',
+    dish_id: dish_selector.id,
+    etudiant_id: 1,
+    restaurant_id: dish_selector.restaurant_id,
+  });
 
-  const dispatch = useDispatch()
-
-  const selector = useSelector(state => state.auth.user)  
-
-  const [FormData,setFormData] = useState<formData>({
-    dish_number:0,
-    operator:'',
-    etudiant_id:1,
-    restaurant_id:1
-  })
-  const [ShowModal, setShowModal] = useState<boolean>(isOpen);
+  const [showModal, setShowModal] = useState<boolean>(isOpen);
   const [selectedValue, setSelectedValue] = useState<string>('1');
   const [value, setValue] = useState('MTN');
 
   useEffect(() => {
-    decodeJWT(selector.access)
+    decodeJWT(selector.access);
     setShowModal(isOpen);
-  }, [isOpen]);
+  }, [isOpen, selector.access]);
 
   const handleSubmit = () => {
-    // const formData = new FormData();
-    // formData.append('dish_number', selectedValue);
-    // formData.append('operator', value);
-
-    console.log(FormData);
-    command.register({data:FormData,dispatch:dispatch})
-
-
-    
+    console.log(formData);
+    command.register({ data: formData, dispatch });
+    commandDish(dish_selector.restaurant_id);
   };
 
-  const handleChange = (item :string,value : string | number) =>{
-    setFormData(
-      {
-        ...FormData,
-        [item]:value
-      }
-
-    )
-  }
+  const handleChange = (item: keyof FormData, value: string | number) => {
+    setFormData({
+      ...formData,
+      [item]: value,
+    });
+  };
 
   return (
     <View className='flex-1 items-center justify-center'>
-      <Modal isOpen={ShowModal}>
+      <Modal isOpen={showModal}>
         <View style={{ width: wp(80) }} className='bg-white rounded-xl'>
           <View className='items-end justify-center m-3'>
             <TouchableOpacity onPress={() => handleShow(false)}>
@@ -83,13 +74,11 @@ const OrderForm = ({ isOpen, handleShow }: Props) => {
           <View className='flex flex-col justify-center'>
             <View className='flex-col gap-y-0'>
               <View className='bg-gray-200 rounded-xl m-5'>
-                <Text className='text-sm font-bold text-center'>
-                  Nombre de plat:
-                </Text>
+                <Text className='text-sm font-bold text-center'>Nombre de plat:</Text>
                 <Box>
-                  <Select className='text-center text-xl' onValueChange={itemsValue => handleChange('dish_number',parseInt(itemsValue))}>
-                    {plateNumber.map((item) => (
-                      <Select.Item key={item} label={`${item}`} value={`${item}`} />
+                  <Select className='text-center text-xl' onValueChange={itemsValue => handleChange('dish_number', parseInt(itemsValue))}>
+                    {Array.from({ length: dish_selector.dish_max_number }, (_, index) => (
+                      <Select.Item key={index} label={`${index + 1}`} value={`${index + 1}`} />
                     ))}
                   </Select>
                 </Box>
@@ -97,7 +86,7 @@ const OrderForm = ({ isOpen, handleShow }: Props) => {
             </View>
 
             <View>
-              <Radio.Group name='PaymementMode' onChange={item => handleChange('operator',item)}>
+              <Radio.Group name='PaymentMode' onChange={item => handleChange('operator', item)}>
                 <Stack
                   direction={{ base: 'column', md: 'row' }}
                   alignItems={{ base: 'flex-start', md: 'center' }}
@@ -112,14 +101,14 @@ const OrderForm = ({ isOpen, handleShow }: Props) => {
                     <Image style={{ width: wp(25), height: hp(8) }} source={require('@/assets/images/mtn.png')} />
                     <View className='flex flex-row space-x-2'>
                       <Text>MTN</Text>
-                      <Radio value='MTN' colorScheme='yellow' size='sm' my={1} icon={<Icon as={<MaterialCommunityIcons name='fire' />} />} />
+                      <Radio value='MTN' colorScheme='yellow' size='sm' my={1} icon={<Icon as={MaterialCommunityIcons} name='fire' />} />
                     </View>
                   </View>
                   <View className='flex flex-row items-center space-x-10'>
                     <Image style={{ width: wp(25), height: hp(8) }} source={require('@/assets/images/orange.png')} />
                     <View className='flex flex-row space-x-2'>
                       <Text>ORANGE</Text>
-                      <Radio value='ORANGE' colorScheme='yellow' size='sm' my={1} icon={<Icon as={<MaterialCommunityIcons name='fire' />} />} />
+                      <Radio value='ORANGE' colorScheme='yellow' size='sm' my={1} icon={<Icon as={MaterialCommunityIcons} name='fire' />} />
                     </View>
                   </View>
                 </Stack>

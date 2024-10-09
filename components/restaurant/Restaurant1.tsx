@@ -4,6 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import CustomButton from '../CustomButton';
 import Commande from '../OrderForm';
 import CommandeForm from '@/app/Form/CommandeForm';
+import { useSelector } from 'react-redux';
 
 type ContextType ={
   showModal:boolean
@@ -11,6 +12,9 @@ type ContextType ={
 export const ShowContextModal  = createContext<ContextType>({showModal:false})
 
 const Restaurant1 = () => {
+
+
+
     const [IsOpenModal,setIsOpenModal] = useState<boolean>(false)
     const handleShow = () => {setIsOpenModal(false)}
     return (

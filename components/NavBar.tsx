@@ -8,26 +8,30 @@ interface CustomNavbarProps {
   currentRoute?: string;
   labels?: string[];
   setShowRestaurant1?:Dispatch<SetStateAction<boolean>>;
-  setChangePage?: Dispatch<SetStateAction<boolean>>;
+  setChangeRestaurant: Dispatch<SetStateAction<number>>;
 }
 
-const CustomNavbar: React.FC<CustomNavbarProps> = ({ setChangePage, currentRoute, labels = ['Restaurant1', 'about', 'Contact'] }) => {
+const CustomNavbar: React.FC<CustomNavbarProps> = ({ setChangeRestaurant, currentRoute, labels = ['Restaurant1', 'about', 'Contact'] }) => {
   const navigation = useNavigation();
   
   const [ActiveNavItem,setActiveNavItem]  = useState<boolean>(true) 
   const [StyleNavItemActive,setNavItemActivte] = useState<string>('text-light-tabBarActiveTintColor text-sm  border-b-4 border-light-tabBarActiveTintColor ')
   const [StyleNavItemDefault,setStyleNavItemDefault,] = useState<string>('text-white text-sm ')
+  
+  
+  
+  
   return (
     <View style={styles.navbar} className='flex flex-row justify-around '>
         <TouchableOpacity
-            onPress={() => {setChangePage?.(true);setActiveNavItem(true)}} 
+            onPress={() => {setChangeRestaurant(1);setActiveNavItem(true)}} 
             className=''
           >
             <Text  className={`${ActiveNavItem? StyleNavItemActive:StyleNavItemDefault}`}>restaurant I</Text>
           </TouchableOpacity>
           <TouchableOpacity
           
-            onPress={() => {setChangePage?.(false);setActiveNavItem(false)}} // Passer la valeur appropriée ici
+            onPress={() => {setChangeRestaurant(2);setActiveNavItem(false)}} // Passer la valeur appropriée ici
           >
             <Text className={`${ActiveNavItem? StyleNavItemDefault:StyleNavItemActive}`}>{"restaurant II"}</Text>
           </TouchableOpacity>
@@ -43,7 +47,7 @@ const CustomNavbar: React.FC<CustomNavbarProps> = ({ setChangePage, currentRoute
               styles.navItem,
               currentRoute === item ? styles.activeNavItem : null,
             ]}
-            onPress={() => setChangePage?.(true)} // Passer la valeur appropriée ici
+            onPress={() => setChangeRestaurant?.(true)} // Passer la valeur appropriée ici
           >
             <Text >{item}</Text>
           </TouchableOpacity>

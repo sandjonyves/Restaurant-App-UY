@@ -8,17 +8,26 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import { Command } from '@/services/request/Command';
 import { decodeToken } from '@/db/Commendes';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Scanner: React.FC = () => {
+
+    const dispatch = useDispatch()
+
+    const order_selector = useSelector(state=> state.command.commandData )
+
     const command = new Command();
 
     const [permission, requestPermission] = useCameraPermissions();
     const [overlayVisible, setOverlayVisible] = useState<boolean>(false);
     const [scanCompleted, setScanCompleted] = useState<boolean>(false); // État pour contrôler le scan
     const isPermissionGranted = Boolean(permission?.granted);
-    const [DataOfQrcode, setDataQrcode] = useState<any>();
+    const [DataOfQrcode, setDataQrcode] = useState({});
 
     useEffect(() => {
+        // setDataQrcode(order_selector)
+        console.log('sdjddadadhjlklklkdsd',DataOfQrcode);
+      
         requestPermission();
     }, []);
 
@@ -27,10 +36,11 @@ const Scanner: React.FC = () => {
 
         const decodedData = decodeToken(data.data);
         setDataQrcode(decodedData);
-        console.log(decodedData);
+        console.log('sdjddadadhjdsd',DataOfQrcode);
 
         if (decodedData && decodedData.etudiant_id) {
-            command.ValidatedCommand({command_id:parseInt(DataOfQrcode.id)});
+
+            command.ValidatedCommand({command_id:parseInt(decodedData.id),dispatch:dispatch,etudiant_id:parseInt(decodedData.etudiant_id),restaurant_id:parseInt(decodedData.restaurant_id)});
             
             let printData = `Matricule : ${decodedData.etudiant_id} \n\nNumber : ${decodedData.dish_number}`;
             Alert.alert('Détails du QR Code', printData);

@@ -20,7 +20,7 @@ const QrCode = ({ isOpen, setIsOpen }: Props) => {
   const selector = useSelector(state => state.command.commandData)
 
   const [ShowModal, setShowModal] = useState<boolean>(isOpen?isOpen:false);
-
+  
   const handleSubmit =() => {
     console.log('reststts',typeof(createToken(selector)))
 

@@ -2,11 +2,12 @@ import { Dispatch } from "redux";
 import Axios from "../Axios";
 import { dish, dish_choise } from "@/redux/slices/DishSlice";
 import { NumberInputField } from "native-base";
+import { Alert } from "react-native";
 
 type dish_props = {
-    restaurant_id?:any,
-    name?:string,
-    dish_id :number,
+    // restaurant_id?:any,
+    // name?:string,
+    // dish_id :number,
     dispatch? : Dispatch
 }
 // type dish_dispatch ={
@@ -19,7 +20,7 @@ type props = {
     data : dish_props
 }
 
-export class Dish{
+export class Dishes{
 
     async register ({data}:props){
         try {
@@ -31,10 +32,10 @@ export class Dish{
         }
     }
 
-    async choise_dish({dish_id,dispatch}:dish_props){
+    async   choise_dish({dispatch}:dish_props){
         try{
-            const response  = await Axios.post(`store/dish/${dish_id}/valid/`)
-            const ws = new WebSocket('ws://192.168.43.84:8000/ws/dish_choise/')
+            // const response  = await Axios.get(`store/dish/${dish_id}/`)
+            const ws = new WebSocket('ws://192.168.43.84:8001/ws/dish_choise/')
 
             ws.onopen = () => {
               console.log('test')
@@ -44,8 +45,8 @@ export class Dish{
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data);
                 if (data.message) {
-                    dispatch?dispatch(dish_choise(data.message)):null
-                    console.log('all data of dish ' , data.message)
+                    dispatch?dispatch(dish(data.message)):null
+                    console.log('all data o  ' , data.message)
                   } else if (data.error) {
                     console.error('Erreur:', data.error);
                 }
@@ -66,10 +67,14 @@ export class Dish{
         }
     }
 
-    async get_dish({dish_id,dispatch}:dish_props  ){
+    async get_dish({dispatch}:dish_props  ){
         try {
-            const response = await Axios.get(`store/dish/${dish_id}/`)
+        
+
+            const response = await Axios.get(`store/dish/choises/`)
+            console.log(response.data)
             dispatch?dispatch(dish(response.data)):null
+           
         }
         catch(error){
             console.error('une erreur ',error)
